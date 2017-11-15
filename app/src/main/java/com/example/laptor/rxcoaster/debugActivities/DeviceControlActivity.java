@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.example.laptor.rxcoaster.R;
 import com.example.laptor.rxcoaster.utils.BluetoothLeService;
+import com.example.laptor.rxcoaster.utils.CoasterInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,11 +42,13 @@ public class DeviceControlActivity extends Activity {
 
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
+    public static final CoasterInfo COASTER_INFO = new CoasterInfo();
 
     private TextView mConnectionState;
     private TextView mDataField;
     private String mDeviceName;
     private String mDeviceAddress;
+    private CoasterInfo coasterInfo;
     private ExpandableListView mGattServicesList;
     private BluetoothLeService mBluetoothLeService;
     private ArrayList<ArrayList<BluetoothGattCharacteristic>> mGattCharacteristics =
@@ -114,6 +117,8 @@ public class DeviceControlActivity extends Activity {
                 public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
                                             int childPosition, long id) {
                     if (mGattCharacteristics != null) {
+//                        final BluetoothGattCharacteristic characteristic =
+//                                mGattCharacteristics.get(groupPosition).get(childPosition);
                         final BluetoothGattCharacteristic characteristic =
                                 mGattCharacteristics.get(groupPosition).get(childPosition);
                         final int charaProp = characteristic.getProperties();
@@ -150,7 +155,9 @@ public class DeviceControlActivity extends Activity {
 
         final Intent intent = getIntent();
         mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
-        mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
+        //mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
+        coasterInfo = (CoasterInfo)intent.getSerializableExtra("testing");
+        mDeviceAddress = coasterInfo.getBtDeviceAddress();
 
         // Sets up UI references.
         ((TextView) findViewById(R.id.device_address)).setText(mDeviceAddress);

@@ -1,29 +1,53 @@
 package com.example.laptor.rxcoaster.utils;
 
+import java.io.Serializable;
+
 /**
  * Created by laptor on 11/1/17.
  */
 
-public class CoasterInfo {
+public class CoasterInfo implements Serializable {
     private static String id;
     private static String coasterId;
     private static String tableId;
     private static boolean isConnected;
     private static boolean needsRefill;
+    private static boolean cupPresent;
 //    private static String btDeviceName;
-//    private static String btDeviceAddress;
+    private static String btDeviceAddress;
 //    private static
 
-    public CoasterInfo(String coasterId, String tableId, boolean isConnected, boolean needsRefill) {
+    public CoasterInfo() {
+    }
+
+    public CoasterInfo(String coasterId, String tableId, boolean isConnected, boolean needsRefill, boolean cupPresent, String btDeviceAddress) {
         this.coasterId = coasterId;
         this.tableId = tableId;
         this.isConnected = isConnected;
         this.needsRefill = needsRefill;
+        this.cupPresent = cupPresent;
+        this.btDeviceAddress = btDeviceAddress;
 
     }
 
     public static String getId() {
         return id;
+    }
+
+    public static boolean isCupPresent() {
+        return cupPresent;
+    }
+
+    public static void setCupPresent(boolean cupPresent) {
+        CoasterInfo.cupPresent = cupPresent;
+    }
+
+    public static String getBtDeviceAddress() {
+        return btDeviceAddress;
+    }
+
+    public static void setBtDeviceAddress(String btDeviceAddress) {
+        CoasterInfo.btDeviceAddress = btDeviceAddress;
     }
 
     public static void setId(String id) {
@@ -68,6 +92,8 @@ public class CoasterInfo {
                 ", tableId='" + tableId + '\'' +
                 ", isConnected=" + isConnected +
                 ", needsRefill=" + needsRefill +
+                ", cupPresent=" + cupPresent +
+                ", btDeviceAddress=" + btDeviceAddress +
                 '}';
     }
 

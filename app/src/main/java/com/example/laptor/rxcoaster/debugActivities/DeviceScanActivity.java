@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.laptor.rxcoaster.R;
+import com.example.laptor.rxcoaster.utils.CoasterInfo;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public class DeviceScanActivity extends ListActivity {
     private boolean mScanning;
     private Handler mHandler;
     private NfcAdapter mNfcAdapter;
+    private CoasterInfo coasterInfo;
 
     private final static String TAG = DeviceScanActivity.class.getSimpleName();
     private static final int REQUEST_ENABLE_BT = 1;
@@ -61,6 +63,7 @@ public class DeviceScanActivity extends ListActivity {
         mHandler = new Handler();
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
+        //Check if the device supports NFC
         if (mNfcAdapter == null) {
             // Stop here, we definitely need NFC
             Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
@@ -68,7 +71,7 @@ public class DeviceScanActivity extends ListActivity {
             return;
 
         }
-
+        //Make a toast message if NFC is turned on or off
         if (!mNfcAdapter.isEnabled()) {
             Toast.makeText(this,"NFC is disabled.", Toast.LENGTH_LONG).show();
         } else {
@@ -103,6 +106,8 @@ public class DeviceScanActivity extends ListActivity {
         }else{
             Toast.makeText(this, "Location permissions already granted", Toast.LENGTH_SHORT).show();
         }
+
+
     }
 
     @Override
@@ -184,6 +189,7 @@ public class DeviceScanActivity extends ListActivity {
      * @param adapter The {@link NfcAdapter} used for the foreground dispatch.
      */
     public static void setupForegroundDispatch(final Activity activity, NfcAdapter adapter) {
+        //reached
         final Intent intent = new Intent(activity.getApplicationContext(), activity.getClass());
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
@@ -203,6 +209,19 @@ public class DeviceScanActivity extends ListActivity {
         }
 
         adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        /**
+         * This method gets called, when a new Intent gets associated with the current activity instance.
+         * Instead of creating a new activity, onNewIntent will be called. For more information have a look
+         * at the documentation.
+         *
+         * In our case this method gets called, when the user attaches a Tag to the device.
+         */
+        handleIntent(intent);
     }
 
     private void handleIntent(Intent intent) {
@@ -245,6 +264,8 @@ public class DeviceScanActivity extends ListActivity {
                 if (ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN && Arrays.equals(ndefRecord.getType(), NdefRecord.RTD_TEXT)) {
                     try {
                         String testNFC = readText(ndefRecord);
+                        String[] parsedNFC = testNFC.split(",");
+                        coasterInfo = new CoasterInfo(parsedNFC[0], parsedNFC[1], Boolean.valueOf(parsedNFC[2]),Boolean.valueOf(parsedNFC[3]), Boolean.valueOf(parsedNFC[4]),parsedNFC[5]);
                         return testNFC;
                     } catch (UnsupportedEncodingException e) {
                         Log.e(TAG, "Unsupported Encoding", e);
@@ -306,6 +327,7 @@ public class DeviceScanActivity extends ListActivity {
         final Intent intent = new Intent(this, DeviceControlActivity.class);
         intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, device.getName());
         intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress());
+        intent.putExtra("testing", coasterInfo);
         if (mScanning) {
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
             mScanning = false;

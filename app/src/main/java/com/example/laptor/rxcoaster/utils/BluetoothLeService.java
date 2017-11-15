@@ -57,7 +57,7 @@ public class BluetoothLeService extends Service {
     public final static UUID UUID_HEART_RATE_MEASUREMENT =
             UUID.fromString(SampleGattAttributes.HEART_RATE_MEASUREMENT);
 
-    private static CoasterInfo coasterInfo = new CoasterInfo("Four", "Six", true, true);
+    public static CoasterInfo coasterInfo = new CoasterInfo();
 
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
@@ -142,12 +142,19 @@ public class BluetoothLeService extends Service {
                 String data2 = stringBuilder.toString();
                 //0 =no cup, 1 = empty, 2 = half full 3 = full
                 if(data[0] == 0){
-
+                    coasterInfo.setCupPresent(false);
+                    CrudActions.sendPut(coasterInfo);
+                }
+                if(data[0] == 1){
+                    coasterInfo.setNeedsRefill(true);
+                    CrudActions.sendPut(coasterInfo);
+                }
+                if(data[0] == 2){
+                    coasterInfo.setNeedsRefill(false);
+                    CrudActions.sendPut(coasterInfo);
                 }
                 if(data[0]  == 3){
                     coasterInfo.setNeedsRefill(false);
-                    coasterInfo.setTableId("Five");
-                    String test = coasterInfo.toString();
                     CrudActions.sendPut(coasterInfo);
                 }
                 intent.putExtra(EXTRA_DATA, new String(data) + "\n" + stringBuilder.toString());
