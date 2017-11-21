@@ -63,7 +63,7 @@ public class GattClient {
     private APIService mAPIService = ApiUtils.getAPIService();
     private String coasterID = "59f94d58572b89369081e712";
 
-    private CoasterInfo coasterInfo = new CoasterInfo("Thirty five" , "Six" , true, true, true, "test");
+    //private CoasterInfo coasterInfo = new CoasterInfo("Thirty five" , "Six" , true, true, true, "test");
 
     private BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
         @Override

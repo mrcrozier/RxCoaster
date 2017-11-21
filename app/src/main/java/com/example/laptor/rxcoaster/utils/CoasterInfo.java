@@ -1,5 +1,8 @@
 package com.example.laptor.rxcoaster.utils;
 
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
+
 import java.io.Serializable;
 
 /**
@@ -15,18 +18,23 @@ public class CoasterInfo implements Serializable {
     private static boolean cupPresent;
 //    private static String btDeviceName;
     private static String btDeviceAddress;
-//    private static
+    private static String gattService;
+    private static String gattCharacteristic;
+
 
     public CoasterInfo() {
     }
 
-    public CoasterInfo(String coasterId, String tableId, boolean isConnected, boolean needsRefill, boolean cupPresent, String btDeviceAddress) {
+    public CoasterInfo(String coasterId, String tableId, boolean isConnected, boolean needsRefill,
+                       boolean cupPresent, String btDeviceAddress, String gattService, String gattCharacteristic) {
         this.coasterId = coasterId;
         this.tableId = tableId;
         this.isConnected = isConnected;
         this.needsRefill = needsRefill;
         this.cupPresent = cupPresent;
         this.btDeviceAddress = btDeviceAddress;
+        this.gattService = gattService;
+        this.gattCharacteristic = gattCharacteristic;
 
     }
 
@@ -42,7 +50,24 @@ public class CoasterInfo implements Serializable {
         CoasterInfo.cupPresent = cupPresent;
     }
 
+    public static String getGattService() {
+        return gattService;
+    }
+
+    public static void setGattService(String gattService) {
+        CoasterInfo.gattService = gattService;
+    }
+
+    public static String getGattCharacteristic() {
+        return gattCharacteristic;
+    }
+
+    public static void setGattCharacteristic(String gattCharacteristic) {
+        CoasterInfo.gattCharacteristic = gattCharacteristic;
+    }
+
     public static String getBtDeviceAddress() {
+
         return btDeviceAddress;
     }
 
@@ -94,6 +119,8 @@ public class CoasterInfo implements Serializable {
                 ", needsRefill=" + needsRefill +
                 ", cupPresent=" + cupPresent +
                 ", btDeviceAddress=" + btDeviceAddress +
+                ", gattService=" + gattService +
+                ", gattCharacteristic=" + gattCharacteristic +
                 '}';
     }
 

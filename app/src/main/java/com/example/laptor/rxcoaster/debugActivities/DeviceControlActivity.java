@@ -111,7 +111,7 @@ public class DeviceControlActivity extends Activity {
     // demonstrates 'Read' and 'Notify' features.  See
     // http://d.android.com/reference/android/bluetooth/BluetoothGatt.html for the complete
     // list of supported characteristic features.
-    private final ExpandableListView.OnChildClickListener servicesListClickListner =
+    private final ExpandableListView.OnChildClickListener servicesListClickListener =
             new ExpandableListView.OnChildClickListener() {
                 @Override
                 public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
@@ -156,13 +156,13 @@ public class DeviceControlActivity extends Activity {
         final Intent intent = getIntent();
         mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
         //mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
-        coasterInfo = (CoasterInfo)intent.getSerializableExtra("testing");
+        coasterInfo = (CoasterInfo)intent.getSerializableExtra("coasterInfo");
         mDeviceAddress = coasterInfo.getBtDeviceAddress();
 
         // Sets up UI references.
         ((TextView) findViewById(R.id.device_address)).setText(mDeviceAddress);
         mGattServicesList = (ExpandableListView) findViewById(R.id.gatt_services_list);
-        mGattServicesList.setOnChildClickListener(servicesListClickListner);
+        mGattServicesList.setOnChildClickListener(servicesListClickListener);
         mConnectionState = (TextView) findViewById(R.id.connection_state);
         mDataField = (TextView) findViewById(R.id.data_value);
 
@@ -252,8 +252,36 @@ public class DeviceControlActivity extends Activity {
                 = new ArrayList<ArrayList<HashMap<String, String>>>();
         mGattCharacteristics = new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
 
+        //Select the correct GATT services stored on NFC tag CoasterInfo
+
         // Loops through available GATT Services.
         for (BluetoothGattService gattService : gattServices) {
+            System.out.println("test" );
+            if(coasterInfo.getGattService().equals(gattService.getUuid().toString())){
+                System.out.println("gattService.getUuid().toString() = " + gattService.getUuid().toString());
+                List<BluetoothGattCharacteristic> gattCharacteristics = gattService.getCharacteristics();
+                for(BluetoothGattCharacteristic gattCharacteristic : gattCharacteristics){
+                    if(coasterInfo.getGattCharacteristic().equals(gattCharacteristic.getUuid().toString())){
+                        final int charaProp = gattCharacteristic.getProperties();
+                        if ((charaProp | BluetoothGattCharacteristic.PROPERTY_READ) > 0) {
+                            // If there is an active notification on a characteristic, clear
+                            // it first so it doesn't update the data field on the user interface.
+                            if (mNotifyCharacteristic != null) {
+                                mBluetoothLeService.setCharacteristicNotification(
+                                        mNotifyCharacteristic, false);
+                                mNotifyCharacteristic = null;
+                            }
+                            mBluetoothLeService.readCharacteristic(gattCharacteristic);
+                        }
+                        if ((charaProp | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
+                            mNotifyCharacteristic = gattCharacteristic;
+                            mBluetoothLeService.setCharacteristicNotification(
+                                    gattCharacteristic, true);
+                        }
+
+                    }
+                }
+            }
             HashMap<String, String> currentServiceData = new HashMap<String, String>();
             uuid = gattService.getUuid().toString();
             currentServiceData.put(
@@ -274,6 +302,9 @@ public class DeviceControlActivity extends Activity {
                 Log.d(TAG, "gattCharacteristic: " + gattCharacteristic);
                 HashMap<String, String> currentCharaData = new HashMap<String, String>();
                 uuid = gattCharacteristic.getUuid().toString();
+                if(coasterInfo.getGattCharacteristic().equals(uuid)){
+                    System.out.println("uuid + coasterInfo.getGattCharacteristic() = " + uuid + coasterInfo.getGattCharacteristic());
+                }
                 currentCharaData.put(
                         LIST_NAME, SampleGattAttributes.lookup(uuid, unknownCharaString));
                 currentCharaData.put(LIST_UUID, uuid);

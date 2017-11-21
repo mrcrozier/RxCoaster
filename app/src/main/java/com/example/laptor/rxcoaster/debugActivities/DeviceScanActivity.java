@@ -265,7 +265,19 @@ public class DeviceScanActivity extends ListActivity {
                     try {
                         String testNFC = readText(ndefRecord);
                         String[] parsedNFC = testNFC.split(",");
-                        coasterInfo = new CoasterInfo(parsedNFC[0], parsedNFC[1], Boolean.valueOf(parsedNFC[2]),Boolean.valueOf(parsedNFC[3]), Boolean.valueOf(parsedNFC[4]),parsedNFC[5]);
+                        coasterInfo = new CoasterInfo(parsedNFC[0], parsedNFC[1], Boolean.valueOf(parsedNFC[2]),Boolean.valueOf(parsedNFC[3])
+                                ,Boolean.valueOf(parsedNFC[4]),parsedNFC[5],parsedNFC[6],parsedNFC[7]);
+
+                        final Intent intent = new Intent(DeviceScanActivity.this, DeviceControlActivity.class);
+                        intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, coasterInfo.getCoasterId());
+                        intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, coasterInfo.getBtDeviceAddress());
+                        intent.putExtra("testing", coasterInfo);
+                        if (mScanning) {
+                            mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                            mScanning = false;
+                        }
+                        startActivity(intent);
+
                         return testNFC;
                     } catch (UnsupportedEncodingException e) {
                         Log.e(TAG, "Unsupported Encoding", e);
@@ -327,7 +339,7 @@ public class DeviceScanActivity extends ListActivity {
         final Intent intent = new Intent(this, DeviceControlActivity.class);
         intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, device.getName());
         intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress());
-        intent.putExtra("testing", coasterInfo);
+        intent.putExtra("coasterInfo", coasterInfo);
         if (mScanning) {
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
             mScanning = false;
