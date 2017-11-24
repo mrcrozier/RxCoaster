@@ -75,6 +75,7 @@ public class DeviceControlActivity extends Activity {
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
+            mBluetoothLeService.close();
             mBluetoothLeService = null;
         }
     };
@@ -156,6 +157,7 @@ public class DeviceControlActivity extends Activity {
         final Intent intent = getIntent();
         mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
         //mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
+        coasterInfo = new CoasterInfo();
         coasterInfo = (CoasterInfo)intent.getSerializableExtra("coasterInfo");
         mDeviceAddress = coasterInfo.getBtDeviceAddress();
 
@@ -268,7 +270,7 @@ public class DeviceControlActivity extends Activity {
                             // it first so it doesn't update the data field on the user interface.
                             if (mNotifyCharacteristic != null) {
                                 mBluetoothLeService.setCharacteristicNotification(
-                                        mNotifyCharacteristic, true);
+                                        mNotifyCharacteristic, false);
                                 mNotifyCharacteristic = null;
                             }
                             mBluetoothLeService.readCharacteristic(gattCharacteristic);

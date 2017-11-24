@@ -269,14 +269,18 @@ public class DeviceScanActivity extends ListActivity {
                                 ,Boolean.valueOf(parsedNFC[4]),parsedNFC[5],parsedNFC[6],parsedNFC[7]);
 
                         final Intent intent = new Intent(DeviceScanActivity.this, DeviceControlActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+                                | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
                         intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, coasterInfo.getCoasterId());
                         intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, coasterInfo.getBtDeviceAddress());
-                        intent.putExtra("testing", coasterInfo);
+                        intent.putExtra("coasterInfo", coasterInfo);
                         if (mScanning) {
                             mBluetoothAdapter.stopLeScan(mLeScanCallback);
                             mScanning = false;
                         }
                         startActivity(intent);
+
 
                         return testNFC;
                     } catch (UnsupportedEncodingException e) {

@@ -156,10 +156,12 @@ public class BluetoothLeService extends Service {
                 }
                 if(data[0]  == 3){
                     coasterInfo.setNeedsRefill(false);
+                    Log.w(TAG, "Coaster " + coasterInfo.getCoasterId() + "is reporting three");
                     CrudActions.sendPut(coasterInfo);
                 }
                 if(data[0] == 4){
                     coasterInfo.setNeedsRefill(false);
+                    Log.w(TAG, "Coaster " + coasterInfo.getCoasterId() + " is reporting four. BT Device address is ");
                     CrudActions.sendPut(coasterInfo);
                 }
                 intent.putExtra(EXTRA_DATA, new String(data) + "\n" + stringBuilder.toString());
@@ -387,7 +389,9 @@ public class BluetoothLeService extends Service {
         BluetoothGattDescriptor descriptor = characteristic.getDescriptor(CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID);
         descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
         mBluetoothGatt.writeDescriptor(descriptor); //descriptor write operation successfully started?
-
+        for(int i = 0; i < 10000; i++){
+            //
+        }
 
 //        // This is specific to Heart Rate Measurement.
 //        if (UUID_HEART_RATE_MEASUREMENT.equals(characteristic.getUuid())) {
