@@ -21,11 +21,11 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.laptor.rxcoaster.Blueteeth.BlueteethDevice;
+import com.example.laptor.rxcoaster.Blueteeth.BlueteethManager;
 import com.example.laptor.rxcoaster.R;
 import com.example.laptor.rxcoaster.debugActivities.DeviceControlActivity;
 import com.example.laptor.rxcoaster.debugActivities.DeviceScanActivity;
-import com.robotpajamas.blueteeth.BlueteethDevice;
-import com.robotpajamas.blueteeth.BlueteethManager;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;

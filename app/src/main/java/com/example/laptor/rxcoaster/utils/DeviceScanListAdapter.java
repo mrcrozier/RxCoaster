@@ -7,8 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.laptor.rxcoaster.Blueteeth.BlueteethDevice;
 import com.example.laptor.rxcoaster.R;
-import com.robotpajamas.blueteeth.BlueteethDevice;
+
 
 import java.util.ArrayList;
 import java.util.List;

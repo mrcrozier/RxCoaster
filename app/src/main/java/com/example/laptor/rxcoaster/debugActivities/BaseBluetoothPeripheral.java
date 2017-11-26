@@ -1,8 +1,10 @@
 package com.example.laptor.rxcoaster.debugActivities;
 
-import com.robotpajamas.blueteeth.BlueteethDevice;
-import com.robotpajamas.blueteeth.listeners.OnBondingChangedListener;
-import com.robotpajamas.blueteeth.listeners.OnConnectionChangedListener;
+
+
+import com.example.laptor.rxcoaster.Blueteeth.BlueteethDevice;
+import com.example.laptor.rxcoaster.listeners.OnBondingChangedListener;
+import com.example.laptor.rxcoaster.listeners.OnConnectionChangedListener;
 
 import java.util.UUID;
 

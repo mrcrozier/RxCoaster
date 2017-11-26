@@ -10,16 +10,16 @@ import java.io.Serializable;
  */
 
 public class CoasterInfo implements Serializable {
-    private static String id;
-    private static String coasterId;
-    private static String tableId;
-    private static boolean isConnected;
-    private static boolean needsRefill;
-    private static boolean cupPresent;
-//    private static String btDeviceName;
-    private static String btDeviceAddress;
-    private static String gattService;
-    private static String gattCharacteristic;
+    private String id;
+    private String coasterId;
+    private String tableId;
+    private boolean isConnected;
+    private boolean needsRefill;
+    private boolean cupPresent;
+    //    private  String btDeviceName;
+    private String btDeviceAddress;
+    private String gattService;
+    private String gattCharacteristic;
 
 
     public CoasterInfo() {
@@ -38,78 +38,79 @@ public class CoasterInfo implements Serializable {
 
     }
 
-    public static String getId() {
+    public String getId() {
         return id;
     }
 
-    public static boolean isCupPresent() {
+    public boolean isCupPresent() {
         return cupPresent;
     }
 
-    public static void setCupPresent(boolean cupPresent) {
-        CoasterInfo.cupPresent = cupPresent;
+    public void setCupPresent(boolean cupPresent) {
+        this.cupPresent = cupPresent;
     }
 
-    public static String getGattService() {
+    public String getGattService() {
         return gattService;
     }
 
-    public static void setGattService(String gattService) {
-        CoasterInfo.gattService = gattService;
+    public void setGattService(String gattService) {
+        this.gattService = gattService;
     }
 
-    public static String getGattCharacteristic() {
+    public String getGattCharacteristic() {
         return gattCharacteristic;
     }
 
-    public static void setGattCharacteristic(String gattCharacteristic) {
-        CoasterInfo.gattCharacteristic = gattCharacteristic;
+    public void setGattCharacteristic(String gattCharacteristic) {
+        this.gattCharacteristic = gattCharacteristic;
     }
 
-    public static String getBtDeviceAddress() {
+    public String getBtDeviceAddress() {
 
         return btDeviceAddress;
     }
 
-    public static void setBtDeviceAddress(String btDeviceAddress) {
-        CoasterInfo.btDeviceAddress = btDeviceAddress;
+    public void setBtDeviceAddress(String btDeviceAddress) {
+        this.btDeviceAddress = btDeviceAddress;
     }
 
-    public static void setId(String id) {
-        CoasterInfo.id = id;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public static String getCoasterId() {
+    public String getCoasterId() {
         return coasterId;
     }
 
-    public static void setCoasterId(String coasterId) {
-        CoasterInfo.coasterId = coasterId;
+    public void setCoasterId(String coasterId) {
+        this.coasterId = coasterId;
     }
 
-    public static String getTableId() {
+    public String getTableId() {
         return tableId;
     }
 
-    public static void setTableId(String tableId) {
-        CoasterInfo.tableId = tableId;
+    public void setTableId(String tableId) {
+        this.tableId = tableId;
     }
 
-    public static boolean isIsConnected() {
+    public boolean isIsConnected() {
         return isConnected;
     }
 
-    public static void setIsConnected(boolean isConnected) {
-        CoasterInfo.isConnected = isConnected;
+    public void setIsConnected(boolean isConnected) {
+        this.isConnected = isConnected;
     }
 
-    public static boolean isNeedsRefill() {
+    public boolean isNeedsRefill() {
         return needsRefill;
     }
 
-    public static void setNeedsRefill(boolean needsRefill) {
-        CoasterInfo.needsRefill = needsRefill;
+    public void setNeedsRefill(boolean needsRefill) {
+        this.needsRefill = needsRefill;
     }
+
     @Override
     public String toString() {
         return "CoasterInfo{" +
