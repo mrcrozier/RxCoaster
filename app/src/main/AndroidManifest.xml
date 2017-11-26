@@ -25,7 +25,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Holo.Light">
-        <activity android:name=".debugActivities.DeviceScanActivity">
+        <activity android:name=".utils.BlueteethActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,6 +41,7 @@
         </activity>
         <activity android:name=".debugActivities.InteractActivity"/>
         <activity android:name=".debugActivities.DeviceControlActivity"/>
+        <activity android:name=".utils.BlueteethDeviceActivity"/>
         <service android:name=".utils.BluetoothLeService" android:enabled="true"/>
     </application>
 

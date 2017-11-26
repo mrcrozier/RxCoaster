@@ -24,4 +24,13 @@
     <string name="successful_put">Successfully updated db</string>
     <string name="failed_put">Failed to update db</string>
 
+    <!-- Blueteeth -->
+
+    <string name="extra_mac_address">com.robotpajamas.android.blueteeth.mac_address</string>
+    <string name="connect">Connect</string>
+    <string name="read">Read Counter</string>
+    <string name="reset_counter">Reset Counter</string>
+    <string name="clear">Clear</string>
+    <string name="disconnect">Disconnect</string>
+
 </resources>
