@@ -1,15 +1,10 @@
 package com.example.laptor.rxcoaster.data.actions;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.laptor.rxcoaster.MainActivity;
-import com.example.laptor.rxcoaster.R;
 import com.example.laptor.rxcoaster.data.model.Post;
 import com.example.laptor.rxcoaster.data.remote.APIService;
 import com.example.laptor.rxcoaster.data.remote.ApiUtils;
-import com.example.laptor.rxcoaster.debugActivities.DeviceControlActivity;
 import com.example.laptor.rxcoaster.utils.CoasterInfo;
 
 import rx.Subscriber;
@@ -56,6 +51,7 @@ public class CrudActions {
         post.setConnected(coasterInfo.isIsConnected());
         post.setTableId(coasterInfo.getTableId());
         post.setNeedsRefill(coasterInfo.isNeedsRefill());
+        post.setCupPresent(coasterInfo.isCupPresent());
         mAPIService.updatePost(coasterInfo.getCoasterId(), post).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Post>() {
                     @Override

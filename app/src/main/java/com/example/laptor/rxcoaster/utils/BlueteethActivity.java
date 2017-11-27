@@ -24,8 +24,6 @@ import android.widget.Toast;
 import com.example.laptor.rxcoaster.Blueteeth.BlueteethDevice;
 import com.example.laptor.rxcoaster.Blueteeth.BlueteethManager;
 import com.example.laptor.rxcoaster.R;
-import com.example.laptor.rxcoaster.debugActivities.DeviceControlActivity;
-import com.example.laptor.rxcoaster.debugActivities.DeviceScanActivity;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
@@ -262,7 +260,7 @@ public class BlueteethActivity  extends ListActivity {
                     try {
                         String testNFC = readText(ndefRecord);
                         String[] parsedNFC = testNFC.split(",");
-                        coasterInfo = new CoasterInfo(parsedNFC[0], parsedNFC[1], Boolean.valueOf(parsedNFC[2]),Boolean.valueOf(parsedNFC[3])
+                        coasterInfo = new CoasterInfo(parsedNFC[0], parsedNFC[1], Boolean.valueOf(parsedNFC[2]),parsedNFC[3]
                                 ,Boolean.valueOf(parsedNFC[4]),parsedNFC[5],parsedNFC[6],parsedNFC[7]);
 
                         final Intent intent = new Intent(BlueteethActivity.this, BlueteethDeviceActivity.class);

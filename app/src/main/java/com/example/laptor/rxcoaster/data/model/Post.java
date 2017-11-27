@@ -21,7 +21,10 @@ public class Post {
     private Boolean connected;
     @SerializedName("needsRefill")
     @Expose
-    private Boolean needsRefill;
+    private String needsRefill;
+    @SerializedName("cupPresent")
+    @Expose
+    private Boolean cupPresent;
 
 
     public  String getCoasterId() {
@@ -49,13 +52,21 @@ public class Post {
         this.connected = connected;
     }
 
-    public Boolean getNeedsRefill() {
+    public String getNeedsRefill() {
         return needsRefill;
     }
 
-    public void setNeedsRefill(Boolean needsRefill) {
+    public void setNeedsRefill(String needsRefill) {
         this.needsRefill = needsRefill;
     }
+    public Boolean getCupPresent() {
+        return cupPresent;
+    }
+
+    public void setCupPresent(Boolean cupPresent) {
+        this.cupPresent = cupPresent;
+    }
+
 
     @Override
     public String toString() {
@@ -64,6 +75,7 @@ public class Post {
                 ", tableId='" + tableId + '\'' +
                 ", connected=" + connected +
                 ", needsRefill=" + needsRefill +
+                ", cupPresent=" + cupPresent +
                 '}';
     }
 }

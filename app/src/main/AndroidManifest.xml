@@ -39,10 +39,7 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <activity android:name=".debugActivities.InteractActivity"/>
-        <activity android:name=".debugActivities.DeviceControlActivity"/>
         <activity android:name=".utils.BlueteethDeviceActivity"/>
-        <service android:name=".utils.BluetoothLeService" android:enabled="true"/>
     </application>
 
 </manifest>

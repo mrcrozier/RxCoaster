@@ -98,25 +98,35 @@ public class BlueteethDeviceActivity extends Activity {
                 updateReceivedData("Read error... " + response.name());
                 return;
             }
+            //grey
             if(data[0] == 0){
                 coasterInfo.setCupPresent(false);
+                coasterInfo.setNeedsRefill("grey");
                 CrudActions.sendPut(coasterInfo);
             }
+            //red
             if(data[0] == 1){
-                coasterInfo.setNeedsRefill(true);
+                coasterInfo.setCupPresent(true);
+                coasterInfo.setNeedsRefill("red");
                 CrudActions.sendPut(coasterInfo);
             }
+            //yellow
             if(data[0] == 2){
-                coasterInfo.setNeedsRefill(false);
+                coasterInfo.setCupPresent(true);
+                coasterInfo.setNeedsRefill("yellow");
                 CrudActions.sendPut(coasterInfo);
             }
+            //green
             if(data[0]  == 3){
-                coasterInfo.setNeedsRefill(false);
+                coasterInfo.setCupPresent(true);
+                coasterInfo.setNeedsRefill("green");
                 Log.w(TAG, "Coaster " + coasterInfo.getCoasterId() + "is reporting three");
                 CrudActions.sendPut(coasterInfo);
             }
+            //dark
             if(data[0] == 4){
-                coasterInfo.setNeedsRefill(false);
+                coasterInfo.setCupPresent(true);
+                coasterInfo.setNeedsRefill("dark");
                 Log.w(TAG, "Coaster " + coasterInfo.getCoasterId() + " is reporting four. BT Device address is ");
                 CrudActions.sendPut(coasterInfo);
             }
@@ -128,26 +138,35 @@ public class BlueteethDeviceActivity extends Activity {
                     updateReceivedData("Notification error... " + notifyResponse.name());
                     return;
                 }
-
+                //grey
                 if(notifyData[0] == 0){
                     coasterInfo.setCupPresent(false);
+                    coasterInfo.setNeedsRefill("grey");
                     CrudActions.sendPut(coasterInfo);
                 }
+                //red
                 if(notifyData[0] == 1){
-                    coasterInfo.setNeedsRefill(true);
+                    coasterInfo.setCupPresent(true);
+                    coasterInfo.setNeedsRefill("red");
                     CrudActions.sendPut(coasterInfo);
                 }
+                //yellow
                 if(notifyData[0] == 2){
-                    coasterInfo.setNeedsRefill(false);
+                    coasterInfo.setCupPresent(true);
+                    coasterInfo.setNeedsRefill("yellow");
                     CrudActions.sendPut(coasterInfo);
                 }
+                //green
                 if(notifyData[0]  == 3){
-                    coasterInfo.setNeedsRefill(false);
+                    coasterInfo.setCupPresent(true);
+                    coasterInfo.setNeedsRefill("green");
                     Log.w(TAG, "Coaster " + coasterInfo.getCoasterId() + "is reporting three");
                     CrudActions.sendPut(coasterInfo);
                 }
+                //dark
                 if(notifyData[0] == 4){
-                    coasterInfo.setNeedsRefill(false);
+                    coasterInfo.setCupPresent(true);
+                    coasterInfo.setNeedsRefill("dark");
                     Log.w(TAG, "Coaster " + coasterInfo.getCoasterId() + " is reporting four. BT Device address is ");
                     CrudActions.sendPut(coasterInfo);
                 }
@@ -189,6 +208,7 @@ public class BlueteethDeviceActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mSamplePeripheral.disconnect();
         mSamplePeripheral.close();
     }
 

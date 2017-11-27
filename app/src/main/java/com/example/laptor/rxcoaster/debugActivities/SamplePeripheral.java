@@ -24,7 +24,7 @@ public class SamplePeripheral extends BaseBluetoothPeripheral {
     // Custom Service
     private UUID SERVICE_TEST = UUID.fromString("f000ba55-0451-4000-b000-000000000000");
 
-    private UUID CHARACTERISTIC_WRITE = UUID.fromString("01726f62-6f74-7061-6a61-6d61732e6361");
+    private UUID CHARACTERISTIC_WRITE = UUID.fromString("00002bad-0000-1000-8000-00805f9b34fb");
     private static final UUID CHARACTERISTIC_WRITE_NO_RESPONSE = UUID.fromString("02726f62-6f74-7061-6a61-6d61732e6361");
 
     private UUID CHARACTERISTIC_READ = UUID.fromString("00002cab-0000-1000-8000-00805f9b34fb");

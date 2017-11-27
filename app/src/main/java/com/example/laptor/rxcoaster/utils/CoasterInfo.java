@@ -14,7 +14,7 @@ public class CoasterInfo implements Serializable {
     private String coasterId;
     private String tableId;
     private boolean isConnected;
-    private boolean needsRefill;
+    private String needsRefill;
     private boolean cupPresent;
     //    private  String btDeviceName;
     private String btDeviceAddress;
@@ -25,7 +25,7 @@ public class CoasterInfo implements Serializable {
     public CoasterInfo() {
     }
 
-    public CoasterInfo(String coasterId, String tableId, boolean isConnected, boolean needsRefill,
+    public CoasterInfo(String coasterId, String tableId, boolean isConnected, String needsRefill,
                        boolean cupPresent, String btDeviceAddress, String gattService, String gattCharacteristic) {
         this.coasterId = coasterId;
         this.tableId = tableId;
@@ -103,11 +103,11 @@ public class CoasterInfo implements Serializable {
         this.isConnected = isConnected;
     }
 
-    public boolean isNeedsRefill() {
+    public String isNeedsRefill() {
         return needsRefill;
     }
 
-    public void setNeedsRefill(boolean needsRefill) {
+    public void setNeedsRefill(String needsRefill) {
         this.needsRefill = needsRefill;
     }
 

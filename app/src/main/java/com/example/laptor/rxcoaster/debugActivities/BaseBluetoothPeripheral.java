@@ -89,6 +89,10 @@ public class BaseBluetoothPeripheral {
         mPeripheral.disconnect(callback);
     }
 
+    public void disconnect() {
+        mPeripheral.disconnect();
+    }
+
     /**
      * Releases all Bluetooth resources
      */

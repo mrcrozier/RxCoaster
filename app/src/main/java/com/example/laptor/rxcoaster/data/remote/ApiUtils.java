@@ -8,7 +8,7 @@ public class ApiUtils {
 
     private ApiUtils() {}
 
-    public static final String BASE_URL = "http://clevercoasters.duckdns.org:4000/";
+    public static final String BASE_URL = "http://clevercoasters.duckdns.org:4000";
 
     public static APIService getAPIService() {
 
