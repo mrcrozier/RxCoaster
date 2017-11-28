@@ -30,6 +30,8 @@ public class BlueteethDeviceActivity extends Activity {
     private static final String TAG = BlueteethDeviceActivity.class.getSimpleName();
     private SamplePeripheral mSamplePeripheral;
     private CoasterInfo coasterInfo;
+    private PreviousData previousData = new PreviousData();
+    private SendData sendData;
     private boolean mIsConnected;
 
     @BindView(R.id.scrollview)
@@ -44,8 +46,15 @@ public class BlueteethDeviceActivity extends Activity {
     @BindView(R.id.button_read_counter)
     Button mReadCounterButton;
 
-    @BindView(R.id.button_write_counter)
-    Button mWriteCounterButton;
+    @BindView(R.id.button_set_empty)
+    Button mSetEmptyButton;
+
+    @BindView(R.id.button_set_half_full)
+    Button mSetHalfFullButton;
+
+    @BindView(R.id.button_set_full)
+    Button mSetFullButton;
+
 
     @OnClick(R.id.button_clear)
     void clearConsole() {
@@ -80,11 +89,15 @@ public class BlueteethDeviceActivity extends Activity {
             if (mIsConnected) {
                 mConnectionButton.setText(R.string.disconnect);
                 mReadCounterButton.setEnabled(true);
-                mWriteCounterButton.setEnabled(true);
+                mSetEmptyButton.setEnabled(true);
+                mSetHalfFullButton.setEnabled(true);
+                mSetFullButton.setEnabled(true);
             } else {
                 mConnectionButton.setText(R.string.connect);
                 mReadCounterButton.setEnabled(false);
-                mWriteCounterButton.setEnabled(false);
+                mSetEmptyButton.setEnabled(false);
+                mSetHalfFullButton.setEnabled(false);
+                mSetFullButton.setEnabled(false);
             }
         }
     };
@@ -98,92 +111,58 @@ public class BlueteethDeviceActivity extends Activity {
                 updateReceivedData("Read error... " + response.name());
                 return;
             }
-            //grey
-            if(data[0] == 0){
-                coasterInfo.setCupPresent(false);
-                coasterInfo.setNeedsRefill("grey");
-                CrudActions.sendPut(coasterInfo);
-            }
-            //red
-            if(data[0] == 1){
-                coasterInfo.setCupPresent(true);
-                coasterInfo.setNeedsRefill("red");
-                CrudActions.sendPut(coasterInfo);
-            }
-            //yellow
-            if(data[0] == 2){
-                coasterInfo.setCupPresent(true);
-                coasterInfo.setNeedsRefill("yellow");
-                CrudActions.sendPut(coasterInfo);
-            }
-            //green
-            if(data[0]  == 3){
-                coasterInfo.setCupPresent(true);
-                coasterInfo.setNeedsRefill("green");
-                Log.w(TAG, "Coaster " + coasterInfo.getCoasterId() + "is reporting three");
-                CrudActions.sendPut(coasterInfo);
-            }
-            //dark
-            if(data[0] == 4){
-                coasterInfo.setCupPresent(true);
-                coasterInfo.setNeedsRefill("dark");
-                Log.w(TAG, "Coaster " + coasterInfo.getCoasterId() + " is reporting four. BT Device address is ");
-                CrudActions.sendPut(coasterInfo);
-            }
+
 
             updateReceivedData(Arrays.toString(data));
 
             mSamplePeripheral.enableNotification(true, (notifyResponse, notifyData) -> {
+
                 if (notifyResponse != BlueteethResponse.NO_ERROR) {
                     updateReceivedData("Notification error... " + notifyResponse.name());
                     return;
                 }
-                //grey
-                if(notifyData[0] == 0){
-                    coasterInfo.setCupPresent(false);
-                    coasterInfo.setNeedsRefill("grey");
-                    CrudActions.sendPut(coasterInfo);
+
+                if(notifyData[0] != previousData.getPreviousData()) {
+                    previousData.setPreviousData(notifyData[0]);
+                    sendData.sendPutRequest(data, coasterInfo);
+                    updateReceivedData(Arrays.toString(notifyData));
                 }
-                //red
-                if(notifyData[0] == 1){
-                    coasterInfo.setCupPresent(true);
-                    coasterInfo.setNeedsRefill("red");
-                    CrudActions.sendPut(coasterInfo);
-                }
-                //yellow
-                if(notifyData[0] == 2){
-                    coasterInfo.setCupPresent(true);
-                    coasterInfo.setNeedsRefill("yellow");
-                    CrudActions.sendPut(coasterInfo);
-                }
-                //green
-                if(notifyData[0]  == 3){
-                    coasterInfo.setCupPresent(true);
-                    coasterInfo.setNeedsRefill("green");
-                    Log.w(TAG, "Coaster " + coasterInfo.getCoasterId() + "is reporting three");
-                    CrudActions.sendPut(coasterInfo);
-                }
-                //dark
-                if(notifyData[0] == 4){
-                    coasterInfo.setCupPresent(true);
-                    coasterInfo.setNeedsRefill("dark");
-                    Log.w(TAG, "Coaster " + coasterInfo.getCoasterId() + " is reporting four. BT Device address is ");
-                    CrudActions.sendPut(coasterInfo);
-                }
-                updateReceivedData(Arrays.toString(notifyData));
             });
         });
     }
 
-    @OnClick(R.id.button_write_counter)
-    void writeCharacteristic() {
-        updateReceivedData("Attempting to Reset Counter ...");
-        mSamplePeripheral.writeCounter((byte) 42, response -> {
+    @OnClick(R.id.button_set_empty)
+    void writeSetEmpty() {
+        updateReceivedData("Attempting to set this weight as empty ...");
+        mSamplePeripheral.writeCounter((byte) 1, response -> {
             if (response != BlueteethResponse.NO_ERROR) {
                 updateReceivedData("Write error... " + response.name());
                 return;
             }
-            updateReceivedData("Counter characteristic reset to 42");
+            updateReceivedData("Set current weight as empty");
+        });
+    }
+
+    @OnClick(R.id.button_set_half_full)
+    void writeSetHalfFull() {
+        updateReceivedData("Attempting to set this weight as half full ...");
+        mSamplePeripheral.writeCounter((byte) 2, response -> {
+            if (response != BlueteethResponse.NO_ERROR) {
+                updateReceivedData("Write error... " + response.name());
+                return;
+            }
+            updateReceivedData("Set current weight as half full"); //Or half empty heheh
+        });
+    }
+    @OnClick(R.id.button_set_full)
+    void writeSetFull() {
+        updateReceivedData("Attempting to set this weight as full ...");
+        mSamplePeripheral.writeCounter((byte) 3, response -> {
+            if (response != BlueteethResponse.NO_ERROR) {
+                updateReceivedData("Write error... " + response.name());
+                return;
+            }
+            updateReceivedData("Set current weight as full");
         });
     }
 
@@ -195,6 +174,7 @@ public class BlueteethDeviceActivity extends Activity {
 
         final Intent intent = getIntent();
         coasterInfo = (CoasterInfo)intent.getSerializableExtra("coasterInfo");
+        sendData = new SendData(coasterInfo);
         String macAddress = coasterInfo.getBtDeviceAddress();
         mSamplePeripheral = new SamplePeripheral(BlueteethManager.with(this).getPeripheral(macAddress));
         mSamplePeripheral.setServiceTest(UUID.fromString(coasterInfo.getGattService()));

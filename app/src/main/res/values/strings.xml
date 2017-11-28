@@ -32,5 +32,9 @@
     <string name="reset_counter">Reset Counter</string>
     <string name="clear">Clear</string>
     <string name="disconnect">Disconnect</string>
+    <string name="set_empty">Set current weight as empty</string>
+    <string name="set_half_full">Set current weight as half full</string>
+    <string name="set_full">Set current weight as full</string>
+
 
 </resources>

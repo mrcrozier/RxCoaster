@@ -26,12 +26,28 @@
             android:text="@string/read" />
 
         <Button
-            android:id="@+id/button_write_counter"
+            android:id="@+id/button_set_empty"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:enabled="false"
-            android:text="@string/reset_counter" />
+            android:text="@string/set_empty" />
+
+        <Button
+            android:id="@+id/button_set_half_full"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:text="@string/set_half_full" />
+
+        <Button
+            android:id="@+id/button_set_full"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:text="@string/set_full" />
 
         <Button
             android:id="@+id/button_clear"
